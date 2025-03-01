@@ -77,6 +77,7 @@ If you wish to just develop locally and not deploy to Vercel, [follow the steps 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
    NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+   NEXT_SERVICE_KEY=[INSERT SUPABASE PROJECT API SERVICE KEY]
    ```
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
@@ -89,16 +90,34 @@ If you wish to just develop locally and not deploy to Vercel, [follow the steps 
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+6. For Production build use below command
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+  ```bash
+   npm run build
+   ```
 
-## Feedback and issues
+7. To start app in production use below command
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+  ```bash
+   npm start
+   ```
 
-## More Supabase examples
+8. To run the test cases use below command
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+  ```bash
+   npm run test
+   ```
+
+9. To run the linting on the project use below command
+
+  ```bash
+   npm run lint
+   ```
+
+## About the Test cases
+
+Here I implemented vitest(https://vitest.dev/) to add unit test cases which is vite build which build fast compared to webpack
+
+## Implemnted zustand
+
+Here I implemnted zustand(https://zustand-demo.pmnd.rs/) to manage global states of application which easy to use and developer friendly experience compared to context API and redux.
