@@ -26,6 +26,7 @@ import TeamForm from "@/components/team-form";
 export default function TeamsPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isLoadingTeams, setIsLoadingTeams] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [isModalVisible, setisModalVisible] = useState(false);
   const [activeTeam, setactiveTeam] = useState({})
@@ -33,6 +34,7 @@ export default function TeamsPage() {
   // Fetch all teams from Supabase
   useEffect(() => {
     const fetchTeams = async (userIdd: any) => {
+      setIsLoadingTeams(true);
       const { data, error } = await supabase
         .from("teams")
         .select("*")
@@ -42,6 +44,8 @@ export default function TeamsPage() {
       } else {
         setTeams(data);
       }
+
+      setIsLoadingTeams(false);
     };
 
     // Get current user ID
@@ -112,7 +116,13 @@ export default function TeamsPage() {
               </TableRow>
             </TableHead>
 
-            <TableBody>
+            {isLoadingTeams ?
+              <TableBody>
+                <TableRow>
+                <TableCell className="text-center">Loading...</TableCell>
+                </TableRow>
+              </TableBody> 
+            : <TableBody>
               {teams?.map((team, index) => (
                 <TableRow
                   sx={{
@@ -149,41 +159,7 @@ export default function TeamsPage() {
                   </TableCell>
                 </TableRow>
               ))}
-              {/* {teams.map((team) => (
-         <div
-           key={team.id}
-           style={{
-             width: "100%",
-             flexDirection: "row",
-             display: "flex",
-             justifyContent: "center",
-             alignItems: "center",
-             borderWidth: 1,
-             padding: 20,
-             gap: 20,
-           }}
-         >
-           {team.logo_url && (
-             <img
-               src={team.logo_url}
-               height={20}
-               alt={team.name}
-               className=" h-16 w-16 rounded-lg mb-4 "
-             />
-           )}
-
-           <CardTitle>{team.name}</CardTitle>
-
-           <Button
-             onClick={() => handleJoinTeam(team.id)}
-             disabled={loading}
-             className=" bg-blue-600 hover:bg-blue-700 text-white "
-           >
-             {loading ? "Joining..." : "Join Team"}
-           </Button>
-         </div>
-       ))} */}
-            </TableBody>
+            </TableBody>}
           </Table>
         </TableContainer>
       </div>

@@ -34,6 +34,7 @@ export default function Dashboard() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isLoadingTeams, setIsLoadingTeams] = useState(false);
   const [isModalVisible, setisModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [isEditingMode, setisEditingMode] = useState(false);
@@ -51,14 +52,17 @@ export default function Dashboard() {
     }
   }, [isProfileModalOpen]);
 
+  const fetchTeams = async () => {
+    setIsLoadingTeams(true);
+    const { data, error } = await supabase
+    .from("teams")
+    .select("id, name, logo_url");
+    if (error) console.error("Error fetching teams:", error);
+    else setTeams(data);
+
+    setIsLoadingTeams(false);
+  };
   useEffect(() => {
-    const fetchTeams = async () => {
-      const { data, error } = await supabase
-        .from("teams")
-        .select("id, name, logo_url");
-      if (error) console.error("Error fetching teams:", error);
-      else setTeams(data);
-    };
 
     const fetchUser = async () => {
       const { data, error } = await supabase.auth.getUser();
@@ -216,7 +220,13 @@ export default function Dashboard() {
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
+          {isLoadingTeams ?
           <TableBody>
+            <TableRow>
+              <TableCell colSpan={4} className="text-center">Loading Teams...</TableCell>
+            </TableRow>
+          </TableBody>
+           :<TableBody>
             {teams.map((team, index) => (
               <TableRow key={team.id}>
                 <TableCell>{index + 1}</TableCell>
@@ -244,7 +254,7 @@ export default function Dashboard() {
                 </TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody>}
         </Table>
       </TableContainer>
       {inviteModal&&<InviteModal open={inviteModal} handleClose={()=>setinviteModal(false)}/>}
@@ -253,7 +263,7 @@ export default function Dashboard() {
           userId={userId || ""}
           isEditingMode={isEditingMode}
           visible={isModalVisible}
-          onClose={() => setisModalVisible(false)}
+          onClose={() => {setisModalVisible(false); fetchTeams();}}
         />
       )}
     </div>
