@@ -23,7 +23,7 @@ export default async function Page() {
 }
 `.trim();
 
-const client = `'use client'
+const client = `
 
 import { createClient } from '@/utils/supabase/client'
 import { useEffect, useState } from 'react'
