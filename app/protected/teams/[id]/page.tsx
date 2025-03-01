@@ -33,6 +33,10 @@ interface Player {
   id: string;
   full_name: string;
   email: string;
+  profile_pic?: string;
+  created_at: string;
+  is_available: boolean;
+
 }
 
 export default function TeamPlayersPage() {
@@ -41,14 +45,14 @@ export default function TeamPlayersPage() {
   const params = useParams();
   const router = useRouter();
   const [isProfileShow, setisProfileShow] = useState(false);
-  const [activePlayer, setactivePlayer] = useState({});
-  const [teamData, setteamData] = useState({});
+  const [activePlayer, setactivePlayer] = useState({} as any);
+  const [teamData, setteamData] = useState({} as any);
   const teamId = params.id as string;
   const [showCaptain, setshowCaptain] = useState(false);
   const [showRequestModal, setshowRequestModal] = useState(false)
   const [userId, setuserId] = useState('')
 
-  const updateRecord = async (userId) => {
+  const updateRecord = async (userId: string) => {
     if (!teamId) {
       alert("error");
       return;
@@ -76,7 +80,7 @@ export default function TeamPlayersPage() {
     try {
       // ✅ Fetch team name
       const { data:userData } = await supabase.auth.getUser();
-      setuserId(userData?.user?.id)
+      setuserId(userData?.user?.id || '')
       const { data: teamData, error: teamError } = await supabase
         .from("teams")
         .select("name,captain_id,created_by")
@@ -232,6 +236,7 @@ export default function TeamPlayersPage() {
               {players.length > 0 ? (
                 players.map((player, index) => (
                   <TableRow
+                    key={index}
                     sx={{
                       width: "100%",
                       // Light background for table header

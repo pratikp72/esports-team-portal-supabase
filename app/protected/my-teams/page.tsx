@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 const supabase = createClient();
 
 interface Team {
+  team: any;
   id: string;
   name: string;
   logo_url: string;
@@ -40,7 +41,7 @@ export default function MyTeams() {
       if (error) {
         console.error("Error fetching teams:", error);
       } else {
-        setTeams(data);
+        setTeams(data as unknown as Team[]);
       }
     };
 
@@ -125,7 +126,7 @@ export default function MyTeams() {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell
                     onClick={() => {
-                      router.push(`teams/${team?.team?.id}`);
+                      router.push(`teams/${team?.team?.id || ""}`);
                     }}
                   >
                     {" "}

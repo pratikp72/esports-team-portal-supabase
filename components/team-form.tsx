@@ -1,4 +1,4 @@
-import { FormControlLabel, InputLabel, Modal, Switch } from "@mui/material";
+import { Button, FormControlLabel, Input, InputLabel, Modal, SelectChangeEvent, Switch } from "@mui/material";
 import React, { useState } from "react";
 import {
   Container,
@@ -17,7 +17,6 @@ import {
   Select,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, Input } from "@supabase/ui";
 import { createClient } from "@/utils/supabase/client";
 const TeamForm = ({
   visible,
@@ -29,7 +28,8 @@ const TeamForm = ({
   visible: boolean;
   onClose: () => void;
   isEditingMode: boolean;
-  userId: string;
+  userId: string | null;
+  activeTeam?: any;
 }) => {
   const [teamName, setteamName] = useState((activeTeam?.name)?(activeTeam?.name):'');
   const [logoUri, setlogoUri] = useState((activeTeam?.logo_url)?(activeTeam?.logo_url):'')
@@ -63,7 +63,7 @@ const TeamForm = ({
       setLogoFile(event.target.files[0]);
     }
   };
-  const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event:SelectChangeEvent<any>) => {
     setskillLeve(event.target.value);
   };
 
@@ -188,7 +188,6 @@ const TeamForm = ({
               <div className="flex justify-between">
               <img src={logoFile?logoFile:logoUri} height={100} width={100}/>
               <Input
-              width={50}
                 type="file"
                 onChange={handleFileChange}
                 className="w-[70%]"
@@ -274,14 +273,15 @@ const TeamForm = ({
               </div>
             </form>
             {isEditingMode?<Button
-              type="primary"
+              
+              type="button"
               className="w-full"
               onClick={handleUpdateTeam}
               disabled={loading}
             >
               {"Update Team"}
             </Button>:<Button
-              type="primary"
+              type="button"
               className="w-full"
               onClick={handleCreateTeam}
               disabled={loading}

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-export async function POST(req) {
+export async function POST(req: any) {
   try {
     const { email, isAdmin } = await req.json();
 
@@ -24,7 +24,7 @@ export async function POST(req) {
     return new Response(JSON.stringify({ message: "Invitation sent!" }), {
       status: 200,
     });
-  } catch (error) {
+  } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 400,
     });

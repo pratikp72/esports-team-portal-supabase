@@ -89,7 +89,7 @@ export default function Dashboard() {
     setIsFilterModalOpen(false);
   };
 
-  async function sendInvite(email) {
+  async function sendInvite(email: string) {
     const response = await fetch("/api/send-invite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

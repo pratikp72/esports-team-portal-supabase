@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Box, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, Button, Stack } from "@mui/material";
+import { Modal, Box, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, Button, Stack, SelectChangeEvent } from "@mui/material";
 
 interface FilterModalProps {
   open: boolean;
@@ -15,7 +15,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ open, onClose, onApply }) => 
     is_available: false,
   });
 
-  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     setFilters((prev) => ({
       ...prev,
       [event.target.name as string]: event.target.value,

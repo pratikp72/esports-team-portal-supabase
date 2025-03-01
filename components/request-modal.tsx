@@ -16,8 +16,14 @@ import { toast } from "react-toastify";
 // Initialize Supabase
 const supabase =createClient()
 
-const RequestModal = ({ open, handleClose, teamId }) => {
-  const [requests, setRequests] = useState([]);
+interface RequestModalProps {
+  open: boolean;
+  handleClose: () => void;
+  teamId: string;
+}
+
+const RequestModal = ({ open, handleClose, teamId }: RequestModalProps) => {
+  const [requests, setRequests] = useState([] as any);
 
   // Fetch requests and user details
   const fetchRequests = async () => {
@@ -56,7 +62,7 @@ const RequestModal = ({ open, handleClose, teamId }) => {
   }, [open]);
 
   // Accept request: Add to team_member and remove request
-  const handleAccept = async (request) => {
+  const handleAccept = async (request: any) => {
     const { member_id } = request;
 
     const { error: insertError } = await supabase
@@ -73,7 +79,7 @@ const RequestModal = ({ open, handleClose, teamId }) => {
   };
 
   // Reject request: Remove from request table
-  const handleReject = async (requestId) => {
+  const handleReject = async (requestId: any) => {
     const { error } = await supabase
       .from("join_requests")
       .delete()
@@ -84,7 +90,7 @@ const RequestModal = ({ open, handleClose, teamId }) => {
       return;
     }
 
-    setRequests((prev) => prev.filter((req) => req.id !== requestId)); // Update UI
+    setRequests((prev: any) => prev.filter((req: any) => req.id !== requestId)); // Update UI
   };
 
   return (
@@ -114,7 +120,7 @@ const RequestModal = ({ open, handleClose, teamId }) => {
 
         <Grid container spacing={2}>
           {requests.length > 0 ? (
-            requests.map((request) => (
+            requests.map((request: any) => (
               <Grid item xs={12} key={request.id}>
                 <Card variant="outlined">
                   <CardContent>

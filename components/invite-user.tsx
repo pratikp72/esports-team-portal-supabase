@@ -5,7 +5,7 @@ import { Button, Modal, Box, TextField, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function InviteModal({open,handleClose}) {
+export default function InviteModal({open,handleClose}: {open: boolean, handleClose: CallableFunction}) {
 //   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ export default function InviteModal({open,handleClose}) {
 
      
 
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} onClose={()=>handleClose()}>
         <Box
           sx={{
             position: "absolute",
@@ -65,7 +65,7 @@ export default function InviteModal({open,handleClose}) {
           <Typography variant="h6" gutterBottom>
             Send Invitation
           </Typography>
-          <button onClick={handleClose}>
+          <button onClick={() => handleClose()}>
             <CloseIcon/>
           </button>
           </div>
